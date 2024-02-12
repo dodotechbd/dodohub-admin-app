@@ -1,7 +1,7 @@
-import "@/styles/globals.css";
 import { ThemeProvider } from "@components/theme";
 import { Layout } from "@enums";
 import { DashboardLayout } from "@layouts";
+import "@styles/globals.css";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import Head from "next/head";

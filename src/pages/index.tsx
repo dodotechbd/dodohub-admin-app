@@ -1,4 +1,4 @@
-import { UserAuthForm } from "@/components/auth";
+import { UserAuthForm } from "@components/auth";
 import Head from "next/head";
 
 export default function AuthenticationPage() {

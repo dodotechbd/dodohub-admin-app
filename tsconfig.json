@@ -17,7 +17,8 @@
       "@components/*": ["src/components/*"],
       "@layouts": ["src/layouts"],
       "@lib/*": ["src/lib/*"],
-      "@enums": ["src/enums"]
+      "@enums": ["src/enums"],
+      "@styles/*": ["src/styles/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
