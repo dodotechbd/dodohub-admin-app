@@ -13,8 +13,8 @@ import {
 } from "lucide-react";
 import * as React from "react";
 
-import { Nav } from "@components/dashboard/nav";
-import { Button } from "@components/ui/button";
+import { UserMenu } from "@components/dashboard";
+import { ILink, Nav } from "@components/dashboard/nav";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -23,9 +23,46 @@ import {
 import { Separator } from "@components/ui/separator";
 import { TooltipProvider } from "@components/ui/tooltip";
 import { cn } from "@lib/utils";
+import { useRouter } from "next/router";
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = React.useState(false);
+  const { route } = useRouter();
+
+  const links: ILink[] = [
+    {
+      title: "Dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      title: "Products",
+      icon: Warehouse,
+    },
+    {
+      title: "Orders",
+      icon: Package,
+    },
+    {
+      title: "Customers",
+      icon: Users,
+    },
+    {
+      title: "Analytics",
+      icon: BarChartBig,
+    },
+    {
+      title: "Rviews",
+      icon: Star,
+    },
+    {
+      title: "Transactions",
+      icon: Wallet,
+    },
+  ];
+
+  const getTitle = () =>
+    links.find((link) => `/${link.title.toLowerCase()}` === route)?.title ||
+    "Not Found";
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -58,46 +95,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             {isCollapsed ? "D" : "DodoHub"}
           </div>
           <Separator />
-          <Nav
-            isCollapsed={isCollapsed}
-            links={[
-              {
-                title: "Dashboard",
-                icon: LayoutDashboard,
-                variant: "default",
-              },
-              {
-                title: "Products",
-                icon: Warehouse,
-                variant: "ghost",
-              },
-              {
-                title: "Orders",
-                icon: Package,
-                variant: "ghost",
-              },
-              {
-                title: "Customers",
-                icon: Users,
-                variant: "ghost",
-              },
-              {
-                title: "Analytics",
-                icon: BarChartBig,
-                variant: "ghost",
-              },
-              {
-                title: "Rviews",
-                icon: Star,
-                variant: "ghost",
-              },
-              {
-                title: "Transactions",
-                icon: Wallet,
-                variant: "ghost",
-              },
-            ]}
-          />
+          <Nav isCollapsed={isCollapsed} links={links} />
           <Separator />
           <Nav
             isCollapsed={isCollapsed}
@@ -105,17 +103,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               {
                 title: "Support/Helpdesk",
                 icon: HelpCircle,
-                variant: "ghost",
               },
               {
                 title: "Feedback",
                 icon: MessagesSquare,
-                variant: "ghost",
               },
               {
                 title: "Settings",
                 icon: Settings,
-                variant: "ghost",
               },
             ]}
           />
@@ -123,14 +118,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         <ResizableHandle />
         <ResizablePanel>
           <div className="flex justify-between items-center px-4 py-2">
-            <h1 className="text-xl font-bold">Dashboard</h1>
-            <Button
-              size="icon"
-              style={{ borderRadius: "100%" }}
-              variant="outline"
-            >
-              S
-            </Button>
+            <h1 className="text-xl font-bold">{getTitle()}</h1>
+            <UserMenu />
           </div>
           <Separator />
           {children}

@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@components/theme";
 import { Layout } from "@enums";
-import { DashboardLayout } from "@layouts";
+import { AuthLayout, DashboardLayout } from "@layouts";
 import "@styles/globals.css";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
@@ -21,9 +21,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     switch (layout) {
       case Layout.AUTH:
         return (
-          // <AuthLayout>
-          <Component {...pageProps} />
-          // </AuthLayout>
+          <AuthLayout>
+            <Component {...pageProps} />
+          </AuthLayout>
         );
       case Layout.SIDEBAR:
         return (

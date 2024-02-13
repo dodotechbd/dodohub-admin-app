@@ -10,18 +10,23 @@ import {
   TooltipTrigger,
 } from "@components/ui/tooltip";
 import { cn } from "@lib/utils";
+import { useRouter } from "next/router";
+
+export interface ILink {
+  title: string;
+  label?: string;
+  icon: LucideIcon;
+}
 
 interface NavProps {
   isCollapsed: boolean;
-  links: {
-    title: string;
-    label?: string;
-    icon: LucideIcon;
-    variant: "default" | "ghost";
-  }[];
+  links: ILink[];
 }
 
 export function Nav({ links, isCollapsed }: NavProps) {
+  const { route } = useRouter();
+
+  const isActive = (link: string) => route === `/${link.toLowerCase()}`;
   return (
     <div
       data-collapsed={isCollapsed}
@@ -33,11 +38,14 @@ export function Nav({ links, isCollapsed }: NavProps) {
             <Tooltip key={index} delayDuration={0}>
               <TooltipTrigger asChild>
                 <Link
-                  href="#"
+                  href={`/${link.title.toLowerCase()}`}
                   className={cn(
-                    buttonVariants({ variant: link.variant, size: "icon" }),
+                    buttonVariants({
+                      variant: isActive(link.title) ? "default" : "ghost",
+                      size: "icon",
+                    }),
                     "h-9 w-9",
-                    link.variant === "default" &&
+                    isActive(link.title) &&
                       "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
                   )}
                 >
@@ -57,10 +65,13 @@ export function Nav({ links, isCollapsed }: NavProps) {
           ) : (
             <Link
               key={index}
-              href="#"
+              href={`/${link.title.toLowerCase()}`}
               className={cn(
-                buttonVariants({ variant: link.variant, size: "default" }),
-                link.variant === "default" &&
+                buttonVariants({
+                  variant: isActive(link.title) ? "default" : "ghost",
+                  size: "default",
+                }),
+                isActive(link.title) &&
                   "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
                 "justify-start"
               )}
@@ -71,8 +82,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                 <span
                   className={cn(
                     "ml-auto",
-                    link.variant === "default" &&
-                      "text-background dark:text-white"
+                    route === link.title && "text-background dark:text-white"
                   )}
                 >
                   {link.label}

@@ -1,7 +1,8 @@
 import { UserAuthForm } from "@components/auth";
+import { Layout } from "@enums";
 import Head from "next/head";
 
-export default function AuthenticationPage() {
+const AuthenticationPage = () => {
   return (
     <>
       <Head>
@@ -70,4 +71,8 @@ export default function AuthenticationPage() {
       </div>
     </>
   );
-}
+};
+
+AuthenticationPage.layout = Layout.AUTH;
+
+export default AuthenticationPage;
