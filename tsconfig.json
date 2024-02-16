@@ -15,6 +15,7 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": ["src/components/*"],
+      "@containers/*": ["src/containers/*"],
       "@layouts": ["src/layouts"],
       "@lib/*": ["src/lib/*"],
       "@enums": ["src/enums"],

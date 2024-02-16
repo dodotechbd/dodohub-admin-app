@@ -1,7 +1,8 @@
+import { ProductsContainer } from "@containers/Products";
 import { Layout } from "@enums";
 
 const Products = () => {
-  return <div>Products</div>;
+  return <ProductsContainer />;
 };
 
 Products.layout = Layout.SIDEBAR;
