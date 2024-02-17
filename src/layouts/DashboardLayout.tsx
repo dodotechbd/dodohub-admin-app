@@ -3,6 +3,7 @@ import {
   BarChartBig,
   HelpCircle,
   LayoutDashboard,
+  Menu,
   MessagesSquare,
   Package,
   Settings,
@@ -15,6 +16,15 @@ import * as React from "react";
 
 import { UserMenu } from "@components/dashboard";
 import { ILink, Nav } from "@components/dashboard/nav";
+import { Icons } from "@components/theme";
+import { Button } from "@components/ui/button";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerOverlay,
+  DrawerPortal,
+  DrawerTrigger,
+} from "@components/ui/drawer";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -66,6 +76,60 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     links.find((link) => `/${link.title.toLowerCase()}` === route)?.title ||
     "Not Found";
 
+  const SideBar = () => {
+    return (
+      <>
+        <div
+          className={cn(
+            "flex h-[52px] items-center justify-center text-lg font-medium uppercase",
+            isCollapsed ? "h-[52px]" : "px-2"
+          )}
+        >
+          <Icons.logo type="white" />
+          {!isCollapsed && "DodoHub Admin"}
+        </div>
+        <Separator />
+        <Nav isCollapsed={isCollapsed} links={links} />
+        <Separator />
+        <Nav
+          isCollapsed={isCollapsed}
+          links={[
+            {
+              title: "Support/Helpdesk",
+              icon: HelpCircle,
+            },
+            {
+              title: "Feedback",
+              icon: MessagesSquare,
+            },
+            {
+              title: "Settings",
+              icon: Settings,
+            },
+          ]}
+        />
+      </>
+    );
+  };
+
+  const MobileDrawer = () => {
+    return (
+      <Drawer direction="left">
+        <DrawerTrigger asChild>
+          <Button size="icon" variant="secondary" className="gap-1">
+            <Menu size={16} strokeWidth={3} />
+          </Button>
+        </DrawerTrigger>
+        <DrawerPortal>
+          <DrawerOverlay className="fixed inset-0 bg-black/20" />
+          <DrawerContent className="bg-white rounded-t-none flex flex-col h-full w-64 mt-24 fixed bottom-0 left-0">
+            <SideBar />
+          </DrawerContent>
+        </DrawerPortal>
+      </Drawer>
+    );
+  };
+
   return (
     <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
@@ -78,10 +142,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       >
         {isDesktop && (
           <ResizablePanel
-            defaultSize={25}
+            defaultSize={20}
             collapsible={true}
             minSize={5}
-            maxSize={25}
+            maxSize={20}
             collapsedSize={5}
             onCollapse={() => setIsCollapsed(true)}
             className={cn(
@@ -89,39 +153,13 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 "min-w-[50px] transition-all duration-300 ease-in-out"
             )}
           >
-            <div
-              className={cn(
-                "flex h-[52px] items-center justify-center text-lg font-medium uppercase",
-                isCollapsed ? "h-[52px]" : "px-2"
-              )}
-            >
-              {isCollapsed ? "D" : "DodoHub"}
-            </div>
-            <Separator />
-            <Nav isCollapsed={isCollapsed} links={links} />
-            <Separator />
-            <Nav
-              isCollapsed={isCollapsed}
-              links={[
-                {
-                  title: "Support/Helpdesk",
-                  icon: HelpCircle,
-                },
-                {
-                  title: "Feedback",
-                  icon: MessagesSquare,
-                },
-                {
-                  title: "Settings",
-                  icon: Settings,
-                },
-              ]}
-            />
+            <SideBar />
           </ResizablePanel>
         )}
-        <ResizableHandle />
+        <ResizableHandle withHandle />
         <ResizablePanel>
           <div className="flex justify-between items-center px-4 py-2">
+            {!isDesktop && <MobileDrawer />}
             <h1 className="text-xl font-bold">{getTitle()}</h1>
             <UserMenu />
           </div>
