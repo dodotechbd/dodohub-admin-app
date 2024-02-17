@@ -22,12 +22,14 @@ import {
 } from "@components/ui/resizable";
 import { Separator } from "@components/ui/separator";
 import { TooltipProvider } from "@components/ui/tooltip";
+import { useMediaQuery } from "@hooks";
 import { cn } from "@lib/utils";
 import { useRouter } from "next/router";
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const { route } = useRouter();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const links: ILink[] = [
     {
@@ -74,47 +76,49 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         }}
         className="min-h-screen items-stretch"
       >
-        <ResizablePanel
-          defaultSize={25}
-          collapsible={true}
-          minSize={5}
-          maxSize={25}
-          collapsedSize={5}
-          onCollapse={() => setIsCollapsed(true)}
-          className={cn(
-            isCollapsed &&
-              "min-w-[50px] transition-all duration-300 ease-in-out"
-          )}
-        >
-          <div
+        {isDesktop && (
+          <ResizablePanel
+            defaultSize={25}
+            collapsible={true}
+            minSize={5}
+            maxSize={25}
+            collapsedSize={5}
+            onCollapse={() => setIsCollapsed(true)}
             className={cn(
-              "flex h-[52px] items-center justify-center text-lg font-medium uppercase",
-              isCollapsed ? "h-[52px]" : "px-2"
+              isCollapsed &&
+                "min-w-[50px] transition-all duration-300 ease-in-out"
             )}
           >
-            {isCollapsed ? "D" : "DodoHub"}
-          </div>
-          <Separator />
-          <Nav isCollapsed={isCollapsed} links={links} />
-          <Separator />
-          <Nav
-            isCollapsed={isCollapsed}
-            links={[
-              {
-                title: "Support/Helpdesk",
-                icon: HelpCircle,
-              },
-              {
-                title: "Feedback",
-                icon: MessagesSquare,
-              },
-              {
-                title: "Settings",
-                icon: Settings,
-              },
-            ]}
-          />
-        </ResizablePanel>
+            <div
+              className={cn(
+                "flex h-[52px] items-center justify-center text-lg font-medium uppercase",
+                isCollapsed ? "h-[52px]" : "px-2"
+              )}
+            >
+              {isCollapsed ? "D" : "DodoHub"}
+            </div>
+            <Separator />
+            <Nav isCollapsed={isCollapsed} links={links} />
+            <Separator />
+            <Nav
+              isCollapsed={isCollapsed}
+              links={[
+                {
+                  title: "Support/Helpdesk",
+                  icon: HelpCircle,
+                },
+                {
+                  title: "Feedback",
+                  icon: MessagesSquare,
+                },
+                {
+                  title: "Settings",
+                  icon: Settings,
+                },
+              ]}
+            />
+          </ResizablePanel>
+        )}
         <ResizableHandle />
         <ResizablePanel>
           <div className="flex justify-between items-center px-4 py-2">

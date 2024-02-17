@@ -19,6 +19,7 @@
       "@layouts": ["src/layouts"],
       "@lib/*": ["src/lib/*"],
       "@enums": ["src/enums"],
+      "@hooks": ["src/hooks"],
       "@styles/*": ["src/styles/*"]
     }
   },
