@@ -2,6 +2,7 @@
 import {
   BarChartBig,
   HelpCircle,
+  Image,
   LayoutDashboard,
   Menu,
   MessagesSquare,
@@ -45,10 +46,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     {
       title: "Dashboard",
       icon: LayoutDashboard,
+      active: true,
     },
     {
       title: "Products",
       icon: Warehouse,
+      active: true,
     },
     {
       title: "Orders",
@@ -72,9 +75,30 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     },
   ];
 
+  const XLinks: ILink[] = [
+    {
+      title: "Support/Helpdesk",
+      icon: HelpCircle,
+    },
+    {
+      title: "Feedback",
+      icon: MessagesSquare,
+    },
+    {
+      title: "Images",
+      icon: Image,
+      active: true,
+    },
+    {
+      title: "Settings",
+      icon: Settings,
+    },
+  ];
+
   const getTitle = () =>
-    links.find((link) => `/${link.title.toLowerCase()}` === route)?.title ||
-    "Not Found";
+    [...links, ...XLinks].find(
+      (link) => `/${link.title.toLowerCase()}` === route
+    )?.title || "Not Found";
 
   const SideBar = () => {
     return (
@@ -91,23 +115,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         <Separator />
         <Nav isCollapsed={isCollapsed} links={links} />
         <Separator />
-        <Nav
-          isCollapsed={isCollapsed}
-          links={[
-            {
-              title: "Support/Helpdesk",
-              icon: HelpCircle,
-            },
-            {
-              title: "Feedback",
-              icon: MessagesSquare,
-            },
-            {
-              title: "Settings",
-              icon: Settings,
-            },
-          ]}
-        />
+        <Nav isCollapsed={isCollapsed} links={XLinks} />
       </>
     );
   };

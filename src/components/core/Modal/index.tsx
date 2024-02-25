@@ -54,7 +54,7 @@ export const Modal = ({
         <DrawerContent
           className={cn(
             isDesktop
-              ? "bg-white rounded-t-none rounded-l-2xl h-full fixed right-0 left-auto " +
+              ? "bg-white rounded-tr-none rounded-l-2xl h-full fixed right-0 left-auto " +
                   widthClass
               : ""
           )}

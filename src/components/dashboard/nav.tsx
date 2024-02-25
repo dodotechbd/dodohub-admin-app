@@ -16,6 +16,7 @@ export interface ILink {
   title: string;
   label?: string;
   icon: LucideIcon;
+  active?: boolean;
 }
 
 interface NavProps {
@@ -38,7 +39,8 @@ export function Nav({ links, isCollapsed }: NavProps) {
             <Tooltip key={index} delayDuration={0}>
               <TooltipTrigger asChild>
                 <Link
-                  href={`/${link.title.toLowerCase()}`}
+                  href={link.active ? `/${link.title.toLowerCase()}` : "#"}
+                  tabIndex={-1}
                   className={cn(
                     buttonVariants({
                       variant: isActive(link.title) ? "default" : "ghost",
@@ -65,7 +67,8 @@ export function Nav({ links, isCollapsed }: NavProps) {
           ) : (
             <Link
               key={index}
-              href={`/${link.title.toLowerCase()}`}
+              href={link.active ? `/${link.title.toLowerCase()}` : "#"}
+              tabIndex={-1}
               className={cn(
                 buttonVariants({
                   variant: isActive(link.title) ? "default" : "ghost",
